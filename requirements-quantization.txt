@@ -1,0 +1,2 @@
+# Optional CUDA quantization; verify quality again after changing precision.
+bitsandbytes==0.50.2

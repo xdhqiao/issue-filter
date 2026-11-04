@@ -1,0 +1,5 @@
+{"description":"编译无法通过。", "expected_id":"compile_issue"}
+{"description":"NOT_INIT 未定义风险。", "expected_id":"no_init_issue"}
+{"description":"编译可以通过，但运行时存在资源泄漏。", "expected_id":null}
+{"description":"NOT_INIT 已定义，真正的问题是释放后的指针仍被使用。", "expected_id":null}
+{"description":"这里存在并发数据竞争。", "expected_id":null}

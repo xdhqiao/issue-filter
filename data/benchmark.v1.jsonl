@@ -1,0 +1,120 @@
+{"case_id": "case_001", "category": "compile_positive", "description": "这段代码会导致编译不通过。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_002", "category": "compile_positive", "description": "当前修改无法通过编译。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_003", "category": "compile_positive", "description": "编译失败，程序无法生成可执行文件。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_004", "category": "compile_positive", "description": "这里存在语法错误，编译器会拒绝这段代码。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_005", "category": "compile_positive", "description": "函数调用的参数数量错误，会造成编译报错。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_006", "category": "compile_positive", "description": "变量声明缺少分号，导致编译失败。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_007", "category": "compile_positive", "description": "使用了不存在的类型名称，代码无法编译。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_008", "category": "compile_positive", "description": "新增代码引用未知标识符，编译将不通过。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_009", "category": "compile_positive", "description": "函数签名与定义不一致，编译器报告类型冲突。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_010", "category": "compile_positive", "description": "模板实例化条件不成立，该分支不能通过编译。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_011", "category": "compile_positive", "description": "当前文件缺少必要的头文件，编译时找不到类型声明。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_012", "category": "compile_positive", "description": "此处把字符串赋给整数变量，编译会发生类型错误。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_013", "category": "compile_positive", "description": "宏展开后生成非法语法，因此编译失败。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_014", "category": "compile_positive", "description": "类中重复声明了相同成员，编译器会报错。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_015", "category": "compile_positive", "description": "访问了私有成员，当前代码不能通过编译。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_016", "category": "compile_positive", "description": "函数声明的返回类型和实际返回值冲突，编译会失败。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_017", "category": "compile_positive", "description": "重载函数调用存在歧义，导致编译不通过。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_018", "category": "compile_positive", "description": "枚举名称拼写错误，在编译阶段无法解析。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_019", "category": "compile_positive", "description": "缺少右花括号，编译器无法完成语法分析。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_020", "category": "compile_positive", "description": "新增分支调用未声明的函数，会触发编译错误。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_021", "category": "compile_positive", "description": "常量表达式要求未满足，当前实现无法编译。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_022", "category": "compile_positive", "description": "代码使用目标语言版本不支持的语法，编译不通过。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_023", "category": "compile_positive", "description": "泛型参数个数不正确，编译器将拒绝该调用。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_024", "category": "compile_positive", "description": "继承关系形成循环，代码会在编译阶段报错。", "expected_id": "compile_issue", "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_025", "category": "not_init_positive", "description": "NOT_INIT 未定义，存在未知标识符风险。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_026", "category": "not_init_positive", "description": "这里使用了没有定义的 NOT_INIT。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_027", "category": "not_init_positive", "description": "NOT_INIT 缺少宏定义，当前文件无法解析该符号。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_028", "category": "not_init_positive", "description": "代码引用 NOT_INIT，但整个工程没有声明这个名称。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_029", "category": "not_init_positive", "description": "NOT_INIT 并未在任何头文件中定义。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_030", "category": "not_init_positive", "description": "当前作用域找不到 NOT_INIT 的声明。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_031", "category": "not_init_positive", "description": "返回值使用 NOT_INIT，然而该常量尚未定义。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_032", "category": "not_init_positive", "description": "NOT_INIT 的定义已经删除，这里仍然继续引用它。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_033", "category": "not_init_positive", "description": "条件分支使用 NOT_INIT，但该标识符不存在。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_034", "category": "not_init_positive", "description": "项目没有提供 NOT_INIT，因此这里存在未定义符号问题。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_035", "category": "not_init_positive", "description": "NOT_INIT 没有声明也没有定义，不能直接使用。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_036", "category": "not_init_positive", "description": "该文件引用 NOT_INIT，却没有引入其定义，存在未定义风险。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_037", "category": "not_init_positive", "description": "NOT_INIT 只在其他配置中定义，当前配置下未定义。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_038", "category": "not_init_positive", "description": "代码把 NOT_INIT 当作状态值，但从未声明过该状态。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_039", "category": "not_init_positive", "description": "NOT_INIT 名称写错了，工程中不存在这个标识符。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_040", "category": "not_init_positive", "description": "没有任何有效的宏定义能够提供 NOT_INIT。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_041", "category": "not_init_positive", "description": "启用当前开关后 NOT_INIT 没有定义，使用时会报未知名称。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_042", "category": "not_init_positive", "description": "NOT_INIT 在当前命名空间中未声明，直接访问存在风险。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_043", "category": "not_init_positive", "description": "此处引用的 NOT_INIT 缺乏相应定义。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_044", "category": "not_init_positive", "description": "NOT_INIT 不是已定义常量，这个引用无法解析。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_045", "category": "not_init_positive", "description": "构建配置遗漏了 NOT_INIT 的定义项。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_046", "category": "not_init_positive", "description": "NOT_INIT 的声明被条件宏屏蔽，当前分支中它是未定义的。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_047", "category": "not_init_positive", "description": "新代码依赖 NOT_INIT，但依赖模块没有导出该符号。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_048", "category": "not_init_positive", "description": "静态检查发现 NOT_INIT 是未声明的标识符。", "expected_id": "no_init_issue", "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_049", "category": "compile_keyword_miss", "description": "构建阶段因语法错误无法生成目标文件。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_050", "category": "compile_keyword_miss", "description": "源文件存在类型冲突，无法生成可执行程序。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_051", "category": "compile_keyword_miss", "description": "构建失败：函数调用引用了未声明的类型。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_052", "category": "compile_keyword_miss", "description": "代码中的模板参数错误使整个构建中断。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_053", "category": "compile_keyword_miss", "description": "语法分析器报告缺少分号，目标文件无法生成。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_054", "category": "compile_keyword_miss", "description": "类型检查无法通过，当前源程序不能转换为目标文件。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_055", "category": "not_init_keyword_miss", "description": "not_init 未定义，存在未知标识符风险。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_056", "category": "not_init_keyword_miss", "description": "代码使用 Not_Init，但该标识符没有声明。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_057", "category": "not_init_keyword_miss", "description": "Not_init 常量从未定义，不能直接引用。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_058", "category": "not_init_keyword_miss", "description": "NOT_init 没有对应的宏定义，当前作用域无法解析。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_059", "category": "not_init_keyword_miss", "description": "noT_INIT 这个符号没有在项目中定义。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_060", "category": "not_init_keyword_miss", "description": "返回值采用 not_INIT，但这个状态常量尚未声明。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_061", "category": "compile_negation", "description": "编译已经通过，真正的问题是运行时空指针访问。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_062", "category": "compile_negation", "description": "这段代码能够正常编译，但数组下标在运行时可能越界。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_063", "category": "compile_negation", "description": "不存在编译失败问题，风险来自并发访问未加锁。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_064", "category": "compile_negation", "description": "编译不会报错；释放后的指针仍然被访问。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_065", "category": "compile_negation", "description": "集成环境已经确认编译成功，但异常路径发生内存泄漏。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_066", "category": "compile_negation", "description": "编译不通过的判断已经被实际构建结果否定，当前发现的是资源泄漏。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_067", "category": "compile_negation", "description": "代码通过了所有编译检查，运行时却可能出现死锁。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_068", "category": "compile_negation", "description": "编译阶段没有错误，输入为空时会触发除零异常。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_069", "category": "compile_negation", "description": "这里并非编译失败，程序是在启动后读取配置时崩溃。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_070", "category": "compile_negation", "description": "编译器能够接受此语法，问题是结果计算精度不足。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_071", "category": "compile_related_but_different", "description": "编译成功后的程序可能执行来自用户输入的恶意命令。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_072", "category": "compile_related_but_different", "description": "编译缓存目录的权限过宽，其他用户可以读取构建产物。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_073", "category": "compile_related_but_different", "description": "编译日志包含访问令牌，可能导致敏感信息泄漏。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_074", "category": "compile_related_but_different", "description": "编译进程结束后没有关闭文件句柄，存在资源泄漏。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_075", "category": "compile_related_but_different", "description": "编译任务并行运行时共享临时文件，可能发生数据竞争。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_076", "category": "compile_related_but_different", "description": "编译输出目录没有限制磁盘占用，长期运行可能填满磁盘。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_077", "category": "compile_related_but_different", "description": "编译服务监听了未鉴权的管理端口。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_078", "category": "compile_related_but_different", "description": "编译工具的下载地址未校验证书，存在中间人攻击风险。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_079", "category": "compile_related_but_different", "description": "编译产物的清理逻辑使用了用户可控路径，可能删除任意文件。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_080", "category": "compile_related_but_different", "description": "编译日志查看接口缺少访问控制，存在越权读取风险。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
+{"case_id": "case_081", "category": "not_init_negation", "description": "NOT_INIT 已在公共头文件中定义，当前问题是数组越界。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_082", "category": "not_init_negation", "description": "NOT_INIT 不是未定义符号；它已有合法定义，风险是空指针解引用。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_083", "category": "not_init_negation", "description": "NOT_INIT 的定义存在且可见，真正的问题是重复释放内存。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_084", "category": "not_init_negation", "description": "NOT_INIT 已声明并已定义，但异常路径没有释放锁。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_085", "category": "not_init_negation", "description": "NOT_INIT 作为有效枚举成员已经声明，这里存在整数溢出风险。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_086", "category": "not_init_negation", "description": "工程明确提供了 NOT_INIT 的宏定义，当前缺陷是路径穿越。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_087", "category": "not_init_negation", "description": "NOT_INIT 没有未定义风险，当前发现的是 SQL 注入。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_088", "category": "not_init_negation", "description": "头文件已正确导出 NOT_INIT，这段代码的问题是线程竞争。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_089", "category": "not_init_negation", "description": "NOT_INIT 是已定义的状态常量，但状态转换遗漏了超时处理。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_090", "category": "not_init_negation", "description": "NOT_INIT 的未定义告警已经确认不成立，真正风险是敏感数据泄漏。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_091", "category": "not_init_related_but_different", "description": "NOT_INIT 已定义，但程序把它错误地当成初始化成功状态。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_092", "category": "not_init_related_but_different", "description": "NOT_INIT 已定义为零，使用它作除数会产生除零异常。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_093", "category": "not_init_related_but_different", "description": "NOT_INIT 定义合法，但比较运算写成赋值，破坏了状态。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_094", "category": "not_init_related_but_different", "description": "NOT_INIT 的定义没有问题，状态读取和更新之间缺少同步。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_095", "category": "not_init_related_but_different", "description": "NOT_INIT 是有效状态，错误在于初始化失败后仍访问未分配缓冲区。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_096", "category": "not_init_related_but_different", "description": "NOT_INIT 已在工程中定义，日志输出这个状态时泄露了用户密码。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_097", "category": "not_init_related_but_different", "description": "NOT_INIT 是合法枚举值，但切换状态时忘记释放旧对象。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_098", "category": "not_init_related_but_different", "description": "NOT_INIT 定义明确，当前问题是状态恢复逻辑导致无限循环。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_099", "category": "not_init_related_but_different", "description": "NOT_INIT 常量存在；函数没有校验外部传入的指针。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_100", "category": "not_init_related_but_different", "description": "NOT_INIT 符号合法，当前状态机仍存在未经授权的状态跳转。", "expected_id": null, "expected_candidate_ids": ["no_init_issue"]}
+{"case_id": "case_101", "category": "two_candidates_negative", "description": "NOT_INIT 已定义且代码可以编译，风险是运行时内存泄漏。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_102", "category": "two_candidates_negative", "description": "编译测试已经通过，NOT_INIT 也有定义；此处真正的问题是数据竞争。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_103", "category": "two_candidates_negative", "description": "NOT_INIT 由公共头文件定义，不影响编译，当前存在缓冲区溢出。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_104", "category": "two_candidates_negative", "description": "这段代码正常编译，NOT_INIT 并非未知符号，问题是命令注入。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_105", "category": "two_candidates_negative", "description": "NOT_INIT 的定义和编译均已验证，缺陷是未检查文件路径。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_106", "category": "two_candidates_negative", "description": "编译没有失败，NOT_INIT 已定义，当前的锁顺序可能造成死锁。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_107", "category": "two_candidates_negative", "description": "NOT_INIT 有合法定义，编译结果成功，但网络请求缺少超时。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_108", "category": "two_candidates_negative", "description": "编译可以通过，NOT_INIT 也不存在未定义问题，真正风险是释放后使用。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_109", "category": "two_candidates_negative", "description": "NOT_INIT 定义正确且编译成功，但错误处理泄露数据库连接。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_110", "category": "two_candidates_negative", "description": "编译和 NOT_INIT 定义均无异常，当前接口存在越权访问。", "expected_id": null, "expected_candidate_ids": ["compile_issue", "no_init_issue"]}
+{"case_id": "case_111", "category": "no_keyword_negative", "description": "数据库查询拼接用户输入，存在 SQL 注入。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_112", "category": "no_keyword_negative", "description": "资源释放后继续解引用指针，可能导致崩溃。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_113", "category": "no_keyword_negative", "description": "用户输入可控制文件路径，存在目录穿越。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_114", "category": "no_keyword_negative", "description": "两个线程同时修改共享计数器，存在数据竞争。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_115", "category": "no_keyword_negative", "description": "日志打印了完整密码，存在敏感信息泄漏。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_116", "category": "no_keyword_negative", "description": "异常返回路径没有关闭数据库连接。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_117", "category": "no_keyword_negative", "description": "网络调用没有超时，工作线程可能永久阻塞。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_118", "category": "no_keyword_negative", "description": "余额相减未检查无符号整数下溢。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_119", "category": "no_keyword_negative", "description": "访问数组前没有校验下标范围。", "expected_id": null, "expected_candidate_ids": []}
+{"case_id": "case_120", "category": "no_keyword_negative", "description": "管理员接口没有校验调用方身份。", "expected_id": null, "expected_candidate_ids": []}

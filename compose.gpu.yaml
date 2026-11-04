@@ -1,0 +1,16 @@
+services:
+  issue-filter:
+    build:
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu128
+        INSTALL_QUANTIZATION: "true"
+    environment:
+      DEVICE: cuda
+      QUANTIZATION: ${QUANTIZATION:-none}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

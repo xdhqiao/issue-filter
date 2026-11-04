@@ -1,0 +1,12 @@
+[
+  {
+    "id": "compile_issue",
+    "key_words": ["编译"],
+    "description": "编译不通过"
+  },
+  {
+    "id": "no_init_issue",
+    "key_words": ["NOT_INIT"],
+    "description": "NOT_INIT 未定义风险"
+  }
+]

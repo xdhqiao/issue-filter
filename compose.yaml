@@ -1,0 +1,25 @@
+services:
+  issue-filter:
+    build:
+      context: .
+      args:
+        TORCH_INDEX_URL: https://download.pytorch.org/whl/cpu
+        INSTALL_QUANTIZATION: "false"
+    env_file: .env
+    environment:
+      HISTORY_PATH: /app/data/historical_issues.json
+      HF_HOME: /cache/huggingface
+      DEVICE: cpu
+      QUANTIZATION: none
+    ports:
+      - "127.0.0.1:${PORT:-8000}:8000"
+    volumes:
+      - ./data:/app/data:ro
+      - model-cache:/cache/huggingface
+      - model-files:/models
+    restart: unless-stopped
+    init: true
+
+volumes:
+  model-cache:
+  model-files:
