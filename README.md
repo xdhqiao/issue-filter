@@ -386,9 +386,36 @@ docker compose -f compose.yaml -f compose.gpu.yaml run --rm issue-filter python 
 
 ### 7.5 本次实现的验证范围
 
-2026-11-04 在 Windows / Python 3.11 环境验证：`pytest` 为 **48 passed, 1 skipped**；通过 Ruff 静态检查、pip 依赖一致性检查、CPU/GPU Compose 配置解析，以及真实 Waitress 本机 HTTP 调用。微型随机 Qwen3.5 的 Transformers 调用链测试已通过。
+2026-11-04 在 Windows / Python 3.11 环境验证：基础自动化套件为 **48 passed, 1 skipped**；新增 API 评估数据与计分测试为 **2 passed**。通过 Ruff 静态检查、pip 依赖一致性检查、CPU/GPU Compose 配置解析，以及真实 Waitress 本机 HTTP 调用。微型随机 Qwen3.5 的 Transformers 调用链测试已通过。
 
-跳过项是真实 4B checkpoint 语义冒烟；本机 Docker 引擎未运行，未发现 NVIDIA 工具，因此没有启动 GPU 容器，也没有下载或实测 9.08 GB 权重。真实模型中文准确率、量化兼容性、显存和吞吐仍需按上述步骤在目标硬件上验证。
+pytest 默认跳过项是真实 4B checkpoint 的可选语义冒烟。真实 4B 权重已单独下载，并通过下节的 HTTP 评估脚本在本机 CPU/FP32 环境进行 120 条样本测试，结果记录于 `BENCHMARK.md`。Docker 引擎未运行且本机没有 NVIDIA GPU，因此 GPU 容器、量化兼容性、显存和 GPU 吞吐仍需在目标硬件上验证。
+
+### 7.6 通过两个 HTTP API 测试真实模型准确率
+
+仓库附带固定的 120 条合成测试数据 `data/benchmark.v1.jsonl`，包含 60 条应匹配问题与 60 条不应匹配问题，覆盖否定表达、同关键词不同风险、两个候选同时出现，以及缺少关键词的同义表达。每条数据有预期 ID 和预期候选集合；标签在测试前固定，测试不调整阈值。
+
+`scripts.benchmark_api` 会先请求 `/api/v1/potential-issues`，再把候选数组原样传给 `/api/v1/match`，记录每条 HTTP 响应、耗时和错误。`--serve-local` 使用真实 Flask + Waitress + Transformers 服务；不指定时测试 `--base-url` 对应的已有服务。
+
+```powershell
+$env:MODEL_PATH=(Resolve-Path '.\models\qwen3.5-4b-nli-v5').Path
+$env:LOCAL_FILES_ONLY='true'; $env:HF_HUB_OFFLINE='1'
+$env:DEVICE='cpu'; $env:DTYPE='float32'; $env:QUANTIZATION='none'
+$env:BATCH_SIZE='1'; $env:THRESHOLD='0.85'; $env:MAX_CONTRADICTION='0.10'
+$env:MATCH_MODE='directional'
+.\.venv\Scripts\python.exe -m scripts.benchmark_api --serve-local --threads 6 --output reports/benchmark.v1.fp32
+.\.venv\Scripts\python.exe -m scripts.report_benchmark reports/benchmark.v1.fp32
+```
+
+测试已有部署：
+
+```bash
+python -m scripts.benchmark_api --base-url http://127.0.0.1:8000 --output reports/existing-server
+python -m scripts.report_benchmark reports/existing-server --output BENCHMARK.md
+```
+
+已有部署的模型版本、阈值和历史库应与报告一致；脚本读取本地环境配置，不能通过当前两个业务 API 自动核验远程服务的完整配置。生成的 `BENCHMARK.md` 包含整体 ID 准确率、候选集合准确率、关键词正例召回率、真正执行模型的非空候选准确率、错误过滤率和逐条错例。完整响应位于对应的 `reports/.../results.jsonl`，统计与配置位于 `summary.json`。
+
+这些是合成样本上的实测结果，不能据此承诺真实项目准确率。`reports` 与模型目录被 Git 忽略，但文件保留在本机。`scripts.build_benchmark` 可重建原始数据；做对比实验时请保持测试数据和标签不变，并使用新的输出目录。
 
 ## 8. 故障排查
 

@@ -52,12 +52,12 @@
 {"case_id": "case_052", "category": "compile_keyword_miss", "description": "代码中的模板参数错误使整个构建中断。", "expected_id": "compile_issue", "expected_candidate_ids": []}
 {"case_id": "case_053", "category": "compile_keyword_miss", "description": "语法分析器报告缺少分号，目标文件无法生成。", "expected_id": "compile_issue", "expected_candidate_ids": []}
 {"case_id": "case_054", "category": "compile_keyword_miss", "description": "类型检查无法通过，当前源程序不能转换为目标文件。", "expected_id": "compile_issue", "expected_candidate_ids": []}
-{"case_id": "case_055", "category": "not_init_keyword_miss", "description": "not_init 未定义，存在未知标识符风险。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
-{"case_id": "case_056", "category": "not_init_keyword_miss", "description": "代码使用 Not_Init，但该标识符没有声明。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
-{"case_id": "case_057", "category": "not_init_keyword_miss", "description": "Not_init 常量从未定义，不能直接引用。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
-{"case_id": "case_058", "category": "not_init_keyword_miss", "description": "NOT_init 没有对应的宏定义，当前作用域无法解析。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
-{"case_id": "case_059", "category": "not_init_keyword_miss", "description": "noT_INIT 这个符号没有在项目中定义。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
-{"case_id": "case_060", "category": "not_init_keyword_miss", "description": "返回值采用 not_INIT，但这个状态常量尚未声明。", "expected_id": "no_init_issue", "expected_candidate_ids": []}
+{"case_id": "case_055", "category": "compile_keyword_miss_extra", "description": "源程序缺少右括号，语法检查失败，无法生成目标文件。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_056", "category": "compile_keyword_miss_extra", "description": "此处引用的类根本没有声明，构建过程因此报错并停止。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_057", "category": "compile_keyword_miss_extra", "description": "构建期间发现重复的函数定义，目标程序无法生成。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_058", "category": "compile_keyword_miss_extra", "description": "类型检查器发现返回值不符合声明，因此源文件构建失败。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_059", "category": "compile_keyword_miss_extra", "description": "模板实参类型不满足约束，当前源程序构建不成功。", "expected_id": "compile_issue", "expected_candidate_ids": []}
+{"case_id": "case_060", "category": "compile_keyword_miss_extra", "description": "源代码中的非法语法导致构建失败，可执行文件无法生成。", "expected_id": "compile_issue", "expected_candidate_ids": []}
 {"case_id": "case_061", "category": "compile_negation", "description": "编译已经通过，真正的问题是运行时空指针访问。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
 {"case_id": "case_062", "category": "compile_negation", "description": "这段代码能够正常编译，但数组下标在运行时可能越界。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}
 {"case_id": "case_063", "category": "compile_negation", "description": "不存在编译失败问题，风险来自并发访问未加锁。", "expected_id": null, "expected_candidate_ids": ["compile_issue"]}

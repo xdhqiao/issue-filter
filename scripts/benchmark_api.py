@@ -59,6 +59,8 @@ def summarize(rows):
                                 set(row["candidate_ids"]) == set(row["expected_candidate_ids"]) for row in rows)
     recalled_positives = [row for row in rows if row["expected_id"] is not None
                          and row["expected_id"] in row["candidate_ids"]]
+    nonempty = [row for row in rows if row["candidate_ids"]]
+    nonempty_correct = sum(row["success"] and row["predicted_id"] == row["expected_id"] for row in nonempty)
     timings = sorted(row["recall_seconds"] + row["match_seconds"] for row in successes)
     return {
         "samples": total, "positive_samples": positives, "negative_samples": negatives,
@@ -74,6 +76,9 @@ def summarize(rows):
         "recalled_positive_id_recall": sum(row["success"] and row["predicted_id"] == row["expected_id"]
                                            for row in recalled_positives) / len(recalled_positives)
         if recalled_positives else None,
+        "nonempty_candidate_samples": len(nonempty),
+        "nonempty_candidate_exact_correct": nonempty_correct,
+        "nonempty_candidate_accuracy": nonempty_correct / len(nonempty) if nonempty else None,
         "false_filter_rate": fp / negatives if negatives else None,
         "wrong_ids": tp - correct_id,
         "confusion_matrix": {"TP": tp, "FP": fp, "TN": tn, "FN": fn},
@@ -115,6 +120,7 @@ def main():
 
         torch.set_num_threads(args.threads)
         settings = replace(settings, preload_model=True)
+        metadata["configuration"]["preload_model"] = True
         print("Loading real model and warming up local HTTP server...", flush=True)
         app = create_app(settings)
         backend = app.extensions["issue_matcher"].backend
