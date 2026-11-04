@@ -188,6 +188,32 @@ gunicorn --config gunicorn.conf.py wsgi:app
 
 进程启动前检查 Python 依赖与硬件。只想联调第一个接口时，可只安装 `requirements.txt` 并设置 `PRELOAD_MODEL=false`；此时不需要模型，第二个接口的非空候选推理仍需要完整依赖和权重。
 
+### 4.5 已下载的完整离线交付包
+
+用于内网的 Linux x86_64 CPU 包位于仓库 `offline/issue-filter-offline-linux-amd64-cpu-20261104.tar`，同目录附带 `.tar.sha256`。完整操作说明是 `deploy/offline/README-OFFLINE.md`，解压后也会随包提供。
+
+该包包含一个已经构建好的应用镜像（包括系统层、全部 Python 运行依赖及完整 Qwen3.5-4B-NLI-v5 模型）、可选的 Linux Docker/Compose 安装工具、历史库、导入/启动/自检脚本与校验清单。内网不需要 pip 安装或重新下载模型。原始权重仍保留在仓库 `models/qwen3.5-4b-nli-v5`，已核对官方 SHA256。
+
+```bash
+tar -xf issue-filter-offline-linux-amd64-cpu-20261104.tar
+cd issue-filter-offline-linux-amd64-cpu-20261104
+bash load-and-start.sh
+bash check-api.sh
+```
+
+目标机需有可用的 Linux 容器引擎和足够内存；Linux 缺少 Docker 时可按随包说明使用可选静态安装脚本，Windows 需已有 Docker Desktop/WSL2。此包为 CPU 版，不包含 CUDA/NVIDIA 驱动。大型模型和交付 tar 实际保存在仓库目录，但被 Git 忽略，不直接提交为普通 Git 文件。
+
+联网构建机重新生成离线包的步骤：
+
+```bash
+docker build --platform linux/amd64 --build-arg BASE_IMAGE=public.ecr.aws/docker/library/python:3.11-slim-bookworm -t issue-filter-runtime:20261104-cpu .
+docker build --platform linux/amd64 --build-context model=./models/qwen3.5-4b-nli-v5 -f Dockerfile.offline -t issue-filter-offline:20261104-cpu .
+python -m scripts.verify_offline
+python -m scripts.package_offline
+```
+
+重建前应先准备好模型及 `offline/host-tools` 中的固定版本 Docker/Compose 安装文件；打包脚本会检查模型和 Compose 的校验值。`verify_offline` 在 `--network none` 且无外部模型挂载的实际容器中进行模型加载和两个 API 验证。测试记录会进入交付包的 `verification.json`。
+
 ## 5. API 使用
 
 所有请求使用 `Content-Type: application/json`。如果 `.env` 配置了 `API_KEY`，两个业务接口还需要 `Authorization: Bearer <API_KEY>`；健康检查不需要认证。Compose 默认只绑定本机 `127.0.0.1`，需要供其他机器调用时可通过公司内网网关暴露服务并配置鉴权。

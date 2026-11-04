@@ -8,3 +8,4 @@ models/
 .cache/
 reports/
 *.egg-info/
+/offline/

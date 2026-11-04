@@ -1,0 +1,19 @@
+services:
+  issue-filter:
+    image: issue-filter-offline:20261104-cpu
+    pull_policy: never
+    env_file: .env.offline
+    environment:
+      HISTORY_PATH: /app/data/historical_issues.json
+      MODEL_PATH: /models/qwen3.5-4b-nli-v5
+      LOCAL_FILES_ONLY: "true"
+      HF_HUB_OFFLINE: "1"
+      TRANSFORMERS_OFFLINE: "1"
+      DEVICE: cpu
+      QUANTIZATION: none
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-8000}:8000"
+    volumes:
+      - ./data:/app/data:ro
+    restart: unless-stopped
+    init: true
