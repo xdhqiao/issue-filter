@@ -1,5 +1,7 @@
 .git
 .venv
+.venv315
+.python
 .env
 .cache
 models

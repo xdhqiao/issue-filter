@@ -115,8 +115,8 @@ def main():
               "$env:DEVICE='cpu'; $env:DTYPE='float32'; $env:QUANTIZATION='none'",
               "$env:BATCH_SIZE='1'; $env:THRESHOLD='0.85'; $env:MAX_CONTRADICTION='0.10'",
               "$env:MATCH_MODE='directional'",
-              ".\\.venv\\Scripts\\python.exe -m scripts.benchmark_api --serve-local --threads 6 --output reports/benchmark.v1.fp32",
-              ".\\.venv\\Scripts\\python.exe -m scripts.report_benchmark reports/benchmark.v1.fp32",
+              f"python -m scripts.benchmark_api --serve-local --threads 6 --output {args.run.as_posix()}",
+              f"python -m scripts.report_benchmark {args.run.as_posix()} --output {args.output.as_posix()}",
               "```", "",
               "建议下一步使用真实问题及人工复核标签建立独立测试集。新增关键词、细化历史描述或调整阈值后，另设运行目录比较；保留本次原始结果作为基线。", ""]
     args.output.write_text("\n".join(lines), encoding="utf-8")

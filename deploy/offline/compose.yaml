@@ -1,6 +1,6 @@
 services:
   issue-filter:
-    image: issue-filter-offline:20261104-cpu
+    image: issue-filter-offline:20261105-py315-cpu
     pull_policy: never
     env_file: .env.offline
     environment:

@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=python:3.11-slim-bookworm
+ARG BASE_IMAGE=python:3.15.2-slim-bookworm
 FROM ${BASE_IMAGE}
 
 ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
@@ -14,7 +14,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements*.txt ./
-RUN pip install torch==2.10.0 --index-url ${TORCH_INDEX_URL} \
+RUN pip install --no-deps torch==2.15.0 --index-url ${TORCH_INDEX_URL} \
     && pip install -r requirements-model.txt \
     && if [ "$INSTALL_QUANTIZATION" = "true" ]; then pip install -r requirements-quantization.txt; fi
 

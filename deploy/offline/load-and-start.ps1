@@ -11,7 +11,7 @@ foreach ($line in Get-Content -LiteralPath SHA256SUMS) {
     $actual = (Get-FileHash -LiteralPath $parts[1] -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($actual -ne $parts[0]) { throw "Checksum mismatch: $($parts[1])" }
 }
-docker load --input images/issue-filter-offline-20261104-cpu.tar
+docker load --input images/issue-filter-offline-20261105-py315-cpu.tar
 if ($LASTEXITCODE -ne 0) { throw 'docker load failed' }
 if ($LoadOnly) { exit 0 }
 docker compose version

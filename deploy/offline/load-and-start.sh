@@ -4,7 +4,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 command -v docker >/dev/null || { echo 'Docker is required. See README-OFFLINE.md or run sudo bash install-docker-linux.sh.' >&2; exit 1; }
 awk '$2 ~ /^(images|host-tools)\// {print}' SHA256SUMS | sha256sum --check -
-docker load --input images/issue-filter-offline-20261104-cpu.tar
+docker load --input images/issue-filter-offline-20261105-py315-cpu.tar
 if [[ "${1:-}" == "--load-only" ]]; then exit 0; fi
 if docker compose version >/dev/null 2>&1; then
   compose=(docker compose)

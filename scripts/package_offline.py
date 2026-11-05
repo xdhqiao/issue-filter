@@ -10,7 +10,7 @@ import subprocess
 import tarfile
 
 ROOT = Path(__file__).resolve().parent.parent
-IMAGE = "issue-filter-offline:20261104-cpu"
+IMAGE = "issue-filter-offline:20261105-py315-cpu"
 MODEL_SHA256 = "2b5f6e0691a5ed0c5d0f5f3e49bb26abe2d8efd7c14fda4431cd803c12b78f68"
 COMPOSE_SHA256 = "7758048ad38e580f22559603312874fec8bb638d021a9e64182385fc17cc12a2"
 
@@ -39,7 +39,7 @@ def main():
     parser.add_argument("--skip-save", action="store_true", help="Reuse an already exported image with matching ID")
     args = parser.parse_args()
     args.output_root = args.output_root.resolve()
-    bundle = args.output_root / "issue-filter-offline-linux-amd64-cpu-20261104"
+    bundle = args.output_root / "issue-filter-offline-linux-amd64-cpu-py315-20261105"
     bundle.mkdir(parents=True, exist_ok=True)
     (bundle / "images").mkdir(exist_ok=True)
     (bundle / "host-tools").mkdir(exist_ok=True)
@@ -62,11 +62,11 @@ def main():
         if path.is_file():
             shutil.copy2(path, bundle / path.name)
     shutil.copy2(ROOT / "data/historical_issues.json", bundle / "data/historical_issues.json")
-    for name in ("README.md", "BENCHMARK.md"):
+    for name in ("README.md", "BENCHMARK.md", "BENCHMARK-PY315.md"):
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, bundle / name)
 
-    image_tar = bundle / "images/issue-filter-offline-20261104-cpu.tar"
+    image_tar = bundle / "images/issue-filter-offline-20261105-py315-cpu.tar"
     manifest_path = bundle / "manifest.json"
     if args.skip_save:
         previous = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -83,9 +83,9 @@ def main():
     docker("run", "--rm", "--pull", "never", "--network", "none", "--entrypoint", "python",
            args.image, "-m", "pip", "check")
 
-    verification_path = args.output_root / "verification.json"
+    verification_path = args.output_root / "verification-py315.json"
     if not verification_path.is_file():
-        raise ValueError("Missing offline/verification.json; validate the actual image before packaging")
+        raise ValueError("Missing offline/verification-py315.json; validate the actual image before packaging")
     verification = json.loads(verification_path.read_text(encoding="utf-8"))
     if verification["image_id"] != inspection["Id"]:
         raise ValueError("Verification belongs to a different image")
@@ -95,6 +95,8 @@ def main():
     manifest = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
         "platform": "linux/amd64", "variant": "cpu-float32",
+        "python_version": docker("run", "--rm", "--pull", "never", "--network", "none", "--entrypoint",
+                                 "python", args.image, "--version").strip(),
         "image": {"tag": args.image, "id": inspection["Id"], "unpacked_bytes": inspection["Size"],
                   "layers": inspection["RootFS"]["Layers"]},
         "model": {"repository": "AlexWortega/openjev", "subfolder": "qwen3.5-4b-nli-v5",
