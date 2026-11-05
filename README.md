@@ -420,6 +420,8 @@ docker compose -f compose.yaml -f compose.gpu.yaml run --rm issue-filter python 
 
 ### 7.5 本次实现的验证范围
 
+Python 3.15.2 升级后，在 Windows CPU 上通过 **50 项自动化测试**（另有 1 项可选真实模型测试默认跳过），并通过 Ruff 和 `pip check`。另外使用本地完整 4B 权重重新跑完 120 条 HTTP 测试：240 次 API 请求全部成功，候选集合及匹配 ID 与 Python 3.11 基线逐条相同。整体 ID 准确率 **85.83%（103/120）**，标为真实问题的合成样本中 **0/60** 被误过滤。详见 [Python 3.15 复测报告](BENCHMARK-PY315.md)。
+
 2026-11-04 在 Windows / Python 3.11 环境验证：基础自动化套件为 **48 passed, 1 skipped**；新增 API 评估数据与计分测试为 **2 passed**。通过 Ruff 静态检查、pip 依赖一致性检查、CPU/GPU Compose 配置解析，以及真实 Waitress 本机 HTTP 调用。微型随机 Qwen3.5 的 Transformers 调用链测试已通过。
 
 pytest 默认跳过项是真实 4B checkpoint 的可选语义冒烟。真实 4B 权重已单独下载，并通过下节的 HTTP 评估脚本在本机 CPU/FP32 环境进行 120 条样本测试，结果记录于 `BENCHMARK.md`。本机没有 NVIDIA GPU，因此 GPU 容器、量化兼容性、显存和 GPU 吞吐仍需在目标硬件上验证。
@@ -436,8 +438,8 @@ $env:LOCAL_FILES_ONLY='true'; $env:HF_HUB_OFFLINE='1'
 $env:DEVICE='cpu'; $env:DTYPE='float32'; $env:QUANTIZATION='none'
 $env:BATCH_SIZE='1'; $env:THRESHOLD='0.85'; $env:MAX_CONTRADICTION='0.10'
 $env:MATCH_MODE='directional'
-.\.venv315\Scripts\python.exe -m scripts.benchmark_api --serve-local --threads 6 --output reports/benchmark.v1.py315.fp32
-.\.venv315\Scripts\python.exe -m scripts.report_benchmark reports/benchmark.v1.py315.fp32 --output BENCHMARK-PY315.md
+.\.venv315\Scripts\python.exe -m scripts.benchmark_api --serve-local --threads 6 --output reports/benchmark.v1.py315.complete
+.\.venv315\Scripts\python.exe -m scripts.report_benchmark reports/benchmark.v1.py315.complete --output BENCHMARK-PY315.md
 ```
 
 测试已有部署：
