@@ -15,8 +15,8 @@ def run(*arguments, **kwargs):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--image", default="issue-filter-offline:20261104-cpu")
-    parser.add_argument("--output", type=Path, default=Path("offline/verification.json"))
+    parser.add_argument("--image", default="issue-filter-offline:20261105-py315-cpu")
+    parser.add_argument("--output", type=Path, default=Path("offline/verification-py315.json"))
     args = parser.parse_args()
     root = Path(__file__).resolve().parent.parent
     inspection = json.loads(run("image", "inspect", args.image))[0]
@@ -28,6 +28,7 @@ def main():
         print(f"Checking real offline container {container[:12]}...", flush=True)
         run("exec", container, "python", "-m", "pip", "check")
         report["dependency_check"] = "passed"
+        report["python_version"] = run("exec", container, "python", "--version").strip()
         manifest_code = (
             "import os,json,pathlib; p=pathlib.Path(os.environ['MODEL_PATH']); "
             "print(json.dumps({'path':str(p),'files':{f.name:f.stat().st_size for f in p.iterdir() if f.is_file()},"

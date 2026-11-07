@@ -2,7 +2,7 @@ services:
   issue-filter:
     build:
       args:
-        TORCH_INDEX_URL: https://download.pytorch.org/whl/cu128
+        TORCH_INDEX_URL: https://pypi.org/simple
         INSTALL_QUANTIZATION: "true"
     environment:
       DEVICE: cuda

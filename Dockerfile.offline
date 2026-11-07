@@ -1,5 +1,5 @@
 # The runtime image is built from the repository's regular Dockerfile first.
-ARG RUNTIME_IMAGE=issue-filter-runtime:20261104-cpu
+ARG RUNTIME_IMAGE=issue-filter-runtime:20261105-py315-cpu
 FROM ${RUNTIME_IMAGE}
 USER root
 # Named build context supplies exactly the already downloaded checkpoint.

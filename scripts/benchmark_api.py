@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import platform
 from threading import Thread
 from time import perf_counter
 from urllib.error import HTTPError, URLError
@@ -124,7 +125,7 @@ def main():
         print("Loading real model and warming up local HTTP server...", flush=True)
         app = create_app(settings)
         backend = app.extensions["issue_matcher"].backend
-        metadata["runtime"] = {"torch": torch.__version__, "device": backend.device,
+        metadata["runtime"] = {"python": platform.python_version(), "torch": torch.__version__, "device": backend.device,
                                "dtype": str(next(backend.model.parameters()).dtype),
                                "backend": type(backend).__name__}
         server = create_server(app, host="127.0.0.1", port=0, threads=2)

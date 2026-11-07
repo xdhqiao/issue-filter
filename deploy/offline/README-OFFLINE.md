@@ -1,12 +1,12 @@
 # 内网离线部署（Linux x86_64 / CPU）
 
-本包可在内网加载运行，不需要访问 Docker Hub、PyPI 或 Hugging Face。Python、Flask、Gunicorn、PyTorch CPU、Transformers、Accelerate 及其依赖已安装在镜像中；约 9.1 GB 的 Qwen3.5-4B-NLI-v5 权重、tokenizer 和配置也已封入同一镜像。
+本包可在内网加载运行，不需要访问 Docker Hub、PyPI 或 Hugging Face。Python 3.15.2、Flask、Gunicorn、PyTorch CPU、Transformers、Accelerate 及其依赖已安装在镜像中；约 9.1 GB 的 Qwen3.5-4B-NLI-v5 权重、tokenizer 和配置也已封入同一镜像。
 
 ## 包含内容
 
 | 文件 | 用途 |
 | --- | --- |
-| `images/issue-filter-offline-20261104-cpu.tar` | 可直接 `docker load` 的完整应用镜像，包含全部基础层和模型 |
+| `images/issue-filter-offline-20261105-py315-cpu.tar` | 可直接 `docker load` 的完整应用镜像，包含全部基础层和模型 |
 | `host-tools/docker-29.9.3.tgz` | 可选的 Linux x86_64 Docker Engine 静态安装包，含 containerd/runc |
 | `host-tools/docker-compose-linux-x86_64` | Compose v5.7.0 可执行文件，可直接使用或安装为 CLI 插件 |
 | `load-and-start.sh` / `.ps1` | 校验、导入镜像并离线启动 |
@@ -31,23 +31,23 @@
 
 ## 1. 将完整 tar 拷贝到内网并解压
 
-把 `issue-filter-offline-linux-amd64-cpu-20261104.tar` 和同名 `.tar.sha256` 一起拷贝。单个文件大于 4 GB，移动介质需使用支持大文件的文件系统。
+把 `issue-filter-offline-linux-amd64-cpu-py315-20261105.tar` 和同名 `.tar.sha256` 一起拷贝。单个文件大于 4 GB，移动介质需使用支持大文件的文件系统。
 
 Linux：
 
 ```bash
-sha256sum --check issue-filter-offline-linux-amd64-cpu-20261104.tar.sha256
-tar -xf issue-filter-offline-linux-amd64-cpu-20261104.tar
-cd issue-filter-offline-linux-amd64-cpu-20261104
+sha256sum --check issue-filter-offline-linux-amd64-cpu-py315-20261105.tar.sha256
+tar -xf issue-filter-offline-linux-amd64-cpu-py315-20261105.tar
+cd issue-filter-offline-linux-amd64-cpu-py315-20261105
 ```
 
 Windows PowerShell：
 
 ```powershell
-Get-FileHash .\issue-filter-offline-linux-amd64-cpu-20261104.tar -Algorithm SHA256
-Get-Content .\issue-filter-offline-linux-amd64-cpu-20261104.tar.sha256
-tar -xf .\issue-filter-offline-linux-amd64-cpu-20261104.tar
-Set-Location .\issue-filter-offline-linux-amd64-cpu-20261104
+Get-FileHash .\issue-filter-offline-linux-amd64-cpu-py315-20261105.tar -Algorithm SHA256
+Get-Content .\issue-filter-offline-linux-amd64-cpu-py315-20261105.tar.sha256
+tar -xf .\issue-filter-offline-linux-amd64-cpu-py315-20261105.tar
+Set-Location .\issue-filter-offline-linux-amd64-cpu-py315-20261105
 ```
 
 比较两个 SHA256 是否相同。希望检查解压后的所有初始文件时，在修改配置前运行 `sha256sum --check SHA256SUMS`；启动脚本只校验镜像和主机安装工具，允许后续修改 `.env.offline` 与历史库。
@@ -98,7 +98,7 @@ bash load-and-start.sh --load-only
 等效手动操作：
 
 ```bash
-docker load --input images/issue-filter-offline-20261104-cpu.tar
+docker load --input images/issue-filter-offline-20261105-py315-cpu.tar
 docker compose --env-file .env.offline -f compose.yaml -p issue-filter-offline up --pull never -d
 ```
 
@@ -148,3 +148,5 @@ docker compose --env-file .env.offline -f compose.yaml -p issue-filter-offline d
 ## 6. 仓库中的原始模型与交付文件
 
 原始模型已经下载到仓库 `models/qwen3.5-4b-nli-v5/`。导入本包时不用另外拷贝该目录，因为同一份权重已在镜像内。镜像归档、完整交付 tar 位于仓库 `offline/`。这些大文件存在于本机仓库目录，但被 `.gitignore` 排除，避免直接提交数十 GB 的二进制；构建脚本、部署脚本和说明仍可随代码版本管理。
+
+本包已升级到 Python 3.15.2 / PyTorch 2.15.0 CPU。旧的 Python 3.11 交付包仍单独保留；历史 120 条评估见 BENCHMARK.md，新运行时评估见 BENCHMARK-PY315.md。

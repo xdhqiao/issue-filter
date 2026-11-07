@@ -1,6 +1,6 @@
 # 代码审核误判问题过滤服务
 
-Python 3.11 + Flask，将审核工具产生的**问题描述**与本地历史误判库比较：先按关键词召回候选，再使用本地 Qwen3.5-4B-NLI-v5 判断语义关系，返回达到阈值的最佳历史问题 ID；没有匹配时返回 `null`。本服务不负责调用上游审核大模型，也不重新读取代码仓库。
+Python 3.15.2 + Flask，将审核工具产生的**问题描述**与本地历史误判库比较：先按关键词召回候选，再使用本地 Qwen3.5-4B-NLI-v5 判断语义关系，返回达到阈值的最佳历史问题 ID；没有匹配时返回 `null`。本服务不负责调用上游审核大模型，也不重新读取代码仓库。
 
 提供两个业务 API：
 
@@ -89,7 +89,9 @@ Docker 镜像、模型原始文件、缓存和本地副本需要额外磁盘空�
 
 ### 4.1 推荐：Docker + NVIDIA GPU
 
-需要 Docker Engine/Desktop、Compose v2、兼容 CUDA 12.8 的 NVIDIA 驱动和 GPU 容器支持。Linux 通常需要 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)；Windows 使用 Docker Desktop 的 Linux 容器/WSL2 GPU 支持。先确认 `docker info` 能连接引擎，并按 [Docker GPU 文档](https://docs.docker.com/compose/how-tos/gpu-support/) 确认容器可访问显卡。
+需要 Docker Engine/Desktop、Compose v2、兼容 CUDA 13.2 的 NVIDIA 驱动和 GPU 容器支持。Linux 通常需要 [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)；Windows 使用 Docker Desktop 的 Linux 容器/WSL2 GPU 支持。先确认 `docker info` 能连接引擎，并按 [Docker GPU 文档](https://docs.docker.com/compose/how-tos/gpu-support/) 确认容器可访问显卡。
+
+Python 3.15 对应的 GPU 构建使用 PyPI 上 PyTorch 2.15 的默认 CUDA 13.2 依赖；此前 CUDA 12.8 的安装命令不再适用。本机无 NVIDIA GPU，GPU 与量化路径仍需在目标硬件验证；本次已验证并打包的是 CPU 版。
 
 在项目根目录执行：
 
@@ -153,15 +155,19 @@ HF_HUB_OFFLINE=1
 
 ### 4.4 不使用 Docker
 
+先安装标准 GIL 版 Python 3.15.2（不使用 free-threaded/3.15t）。Windows 可以用 `py -3.15 -m venv .venv315`；本机已准备项目内的 `.venv315`，无需重建。VS Code 工作区默认解释器已指向它。
+
+本机解释器可直接执行 `.\.venv315\Scripts\python.exe --version`。项目独立运行时位于 `.python/`，没有注册到系统 Python 启动器，也没有修改全局 Python；原 `.venv/` 中的 3.11 环境保留。新电脑使用自行安装的 Python 3.15.2 创建环境即可；Docker/离线包已内置 Python，无需宿主另装。
+
 ```bash
-python -m venv .venv
+python3.15 -m venv .venv315
 # Linux/macOS shell
-source .venv/bin/activate
-# Windows PowerShell 使用：.\.venv\Scripts\Activate.ps1
+source .venv315/bin/activate
+# Windows PowerShell 使用：.\.venv315\Scripts\Activate.ps1
 
 # 按设备二选一，先安装正确的 PyTorch wheel
-python -m pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cpu
-# NVIDIA GPU 改为：python -m pip install torch==2.10.0 --index-url https://download.pytorch.org/whl/cu128
+python -m pip install --no-deps torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+# NVIDIA GPU 改为：python -m pip install --no-deps torch==2.15.0 --index-url https://pypi.org/simple
 python -m pip install -r requirements-model.txt
 # 仅 GPU 量化需要：python -m pip install -r requirements-quantization.txt
 
@@ -190,13 +196,15 @@ gunicorn --config gunicorn.conf.py wsgi:app
 
 ### 4.5 已下载的完整离线交付包
 
-用于内网的 Linux x86_64 CPU 包位于仓库 `offline/issue-filter-offline-linux-amd64-cpu-20261104.tar`，同目录附带 `.tar.sha256`。完整操作说明是 `deploy/offline/README-OFFLINE.md`，解压后也会随包提供。
+旧 Python 3.11 包 `offline/issue-filter-offline-linux-amd64-cpu-20261104.tar` 保留，可单独回退。
+
+用于内网的 Linux x86_64 CPU 包位于仓库 `offline/issue-filter-offline-linux-amd64-cpu-py315-20261105.tar`，同目录附带 `.tar.sha256`。完整操作说明是 `deploy/offline/README-OFFLINE.md`，解压后也会随包提供。
 
 该包包含一个已经构建好的应用镜像（包括系统层、全部 Python 运行依赖及完整 Qwen3.5-4B-NLI-v5 模型）、可选的 Linux Docker/Compose 安装工具、历史库、导入/启动/自检脚本与校验清单。内网不需要 pip 安装或重新下载模型。原始权重仍保留在仓库 `models/qwen3.5-4b-nli-v5`，已核对官方 SHA256。
 
 ```bash
-tar -xf issue-filter-offline-linux-amd64-cpu-20261104.tar
-cd issue-filter-offline-linux-amd64-cpu-20261104
+tar -xf issue-filter-offline-linux-amd64-cpu-py315-20261105.tar
+cd issue-filter-offline-linux-amd64-cpu-py315-20261105
 bash load-and-start.sh
 bash check-api.sh
 ```
@@ -206,8 +214,8 @@ bash check-api.sh
 联网构建机重新生成离线包的步骤：
 
 ```bash
-docker build --platform linux/amd64 --build-arg BASE_IMAGE=public.ecr.aws/docker/library/python:3.11-slim-bookworm -t issue-filter-runtime:20261104-cpu .
-docker build --platform linux/amd64 --build-context model=./models/qwen3.5-4b-nli-v5 -f Dockerfile.offline -t issue-filter-offline:20261104-cpu .
+docker build --platform linux/amd64 --build-arg BASE_IMAGE=public.ecr.aws/docker/library/python:3.15.2-slim-bookworm -t issue-filter-runtime:20261105-py315-cpu .
+docker build --platform linux/amd64 --build-context model=./models/qwen3.5-4b-nli-v5 -f Dockerfile.offline -t issue-filter-offline:20261105-py315-cpu .
 python -m scripts.verify_offline
 python -m scripts.package_offline
 ```
@@ -412,9 +420,11 @@ docker compose -f compose.yaml -f compose.gpu.yaml run --rm issue-filter python 
 
 ### 7.5 本次实现的验证范围
 
+Python 3.15.2 升级后，在 Windows CPU 上通过 **50 项自动化测试**（另有 1 项可选真实模型测试默认跳过），并通过 Ruff 和 `pip check`。另外使用本地完整 4B 权重重新跑完 120 条 HTTP 测试：240 次 API 请求全部成功，候选集合及匹配 ID 与 Python 3.11 基线逐条相同。整体 ID 准确率 **85.83%（103/120）**，标为真实问题的合成样本中 **0/60** 被误过滤。详见 [Python 3.15 复测报告](BENCHMARK-PY315.md)。
+
 2026-11-04 在 Windows / Python 3.11 环境验证：基础自动化套件为 **48 passed, 1 skipped**；新增 API 评估数据与计分测试为 **2 passed**。通过 Ruff 静态检查、pip 依赖一致性检查、CPU/GPU Compose 配置解析，以及真实 Waitress 本机 HTTP 调用。微型随机 Qwen3.5 的 Transformers 调用链测试已通过。
 
-pytest 默认跳过项是真实 4B checkpoint 的可选语义冒烟。真实 4B 权重已单独下载，并通过下节的 HTTP 评估脚本在本机 CPU/FP32 环境进行 120 条样本测试，结果记录于 `BENCHMARK.md`。Docker 引擎未运行且本机没有 NVIDIA GPU，因此 GPU 容器、量化兼容性、显存和 GPU 吞吐仍需在目标硬件上验证。
+pytest 默认跳过项是真实 4B checkpoint 的可选语义冒烟。真实 4B 权重已单独下载，并通过下节的 HTTP 评估脚本在本机 CPU/FP32 环境进行 120 条样本测试，结果记录于 `BENCHMARK.md`。本机没有 NVIDIA GPU，因此 GPU 容器、量化兼容性、显存和 GPU 吞吐仍需在目标硬件上验证。
 
 ### 7.6 通过两个 HTTP API 测试真实模型准确率
 
@@ -428,8 +438,8 @@ $env:LOCAL_FILES_ONLY='true'; $env:HF_HUB_OFFLINE='1'
 $env:DEVICE='cpu'; $env:DTYPE='float32'; $env:QUANTIZATION='none'
 $env:BATCH_SIZE='1'; $env:THRESHOLD='0.85'; $env:MAX_CONTRADICTION='0.10'
 $env:MATCH_MODE='directional'
-.\.venv\Scripts\python.exe -m scripts.benchmark_api --serve-local --threads 6 --output reports/benchmark.v1.fp32
-.\.venv\Scripts\python.exe -m scripts.report_benchmark reports/benchmark.v1.fp32
+.\.venv315\Scripts\python.exe -m scripts.benchmark_api --serve-local --threads 6 --output reports/benchmark.v1.py315.complete
+.\.venv315\Scripts\python.exe -m scripts.report_benchmark reports/benchmark.v1.py315.complete --output BENCHMARK-PY315.md
 ```
 
 测试已有部署：
@@ -465,6 +475,6 @@ python -m scripts.report_benchmark reports/existing-server --output BENCHMARK.md
 - [原始权重文件及大小](https://huggingface.co/AlexWortega/openjev/blob/main/qwen3.5-4b-nli-v5/model.safetensors)
 - [Transformers Qwen3.5 文档](https://huggingface.co/docs/transformers/model_doc/qwen3_5)
 - [bitsandbytes 量化文档](https://huggingface.co/docs/transformers/quantization/bitsandbytes)
-- [PyTorch 2.10.0 官方安装命令](https://pytorch.org/get-started/previous-versions/)
+- [PyTorch 安装说明](https://pytorch.org/get-started/locally/)
 
 实现使用固定的直接依赖版本；间接依赖由 pip 解析。生产发布应在目标平台构建和测试镜像后记录其 digest，并归档业务评估结果。
